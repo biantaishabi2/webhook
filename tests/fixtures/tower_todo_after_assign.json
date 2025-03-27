@@ -1,0 +1,222 @@
+{
+  "data": {
+    "id": "561ce10ed579d92adf0f1f715848e191",
+    "type": "todos",
+    "attributes": {
+      "team_wide_id": 147,
+      "content": "\u9b51\u9b45\u9b4d\u9b49\u603b\u51fa\u73b0\u7684\u79cb\u6536\u540e",
+      "desc": "<p><p>\u6d4b\u8bd5 API \u66f4\u65b0\u4efb\u52a1\u63cf\u8ff0 - Tower API Integration</p></p>",
+      "is_active": true,
+      "is_completed": false,
+      "priority": "normal",
+      "start_at": null,
+      "due_at": null,
+      "closed_at": null,
+      "created_at": "2025-03-12T11:50:23.000+08:00",
+      "updated_at": "2025-03-12T14:11:55.106+08:00",
+      "labels": []
+    },
+    "relationships": {
+      "project": {
+        "data": {
+          "id": "5dc713a15ab57a0bcefcc2969729b6c4",
+          "type": "projects"
+        }
+      },
+      "todolist": {
+        "data": {
+          "id": "68f1211586a95d0b21b88a98377d4134",
+          "type": "todolists"
+        }
+      },
+      "creator": {
+        "data": {
+          "id": "f91066231c2e352d46ecb35b5e8911c9",
+          "type": "members"
+        }
+      },
+      "assignee": {
+        "data": {
+          "id": "f91066231c2e352d46ecb35b5e8911c9",
+          "type": "members"
+        }
+      },
+      "closer": {
+        "data": null
+      },
+      "parent": {
+        "data": null
+      },
+      "custom_field_value": {
+        "data": {
+          "id": "27474957",
+          "type": "todos_custom_field_values"
+        }
+      },
+      "sub_todos": {
+        "data": []
+      },
+      "comments": {
+        "data": [
+          {
+            "id": "43ca0a53add89d261029b7d0e3850ea4",
+            "type": "comments"
+          },
+          {
+            "id": "822590cc7f7e4a229a8cb901cbc7abbe",
+            "type": "comments"
+          },
+          {
+            "id": "4145079fdf0450215790f9002c2ed950",
+            "type": "comments"
+          }
+        ]
+      },
+      "todolists": {
+        "data": [
+          {
+            "id": "68f1211586a95d0b21b88a98377d4134",
+            "type": "todolists"
+          }
+        ]
+      },
+      "attachments": {
+        "data": []
+      }
+    }
+  },
+  "included": [
+    {
+      "id": "5dc713a15ab57a0bcefcc2969729b6c4",
+      "type": "projects",
+      "attributes": {
+        "name": "test\u654f\u6377\u8fed\u4ee3",
+        "is_archived": false
+      }
+    },
+    {
+      "id": "68f1211586a95d0b21b88a98377d4134",
+      "type": "todolists",
+      "attributes": {
+        "name": "\u5f85\u5206\u914d",
+        "is_active": true,
+        "is_archived": false,
+        "is_default": false
+      },
+      "relationships": {
+        "project": {
+          "data": {
+            "id": "5dc713a15ab57a0bcefcc2969729b6c4",
+            "type": "projects"
+          }
+        }
+      }
+    },
+    {
+      "id": "f91066231c2e352d46ecb35b5e8911c9",
+      "type": "members",
+      "attributes": {
+        "nickname": "\u738b\u535a",
+        "is_active": true,
+        "gavatar": "https://avatar3.tower.im/letter_avatars/6e47ac0ca103acbdbec68ebae0b51a53_wangbo",
+        "role": "owner"
+      }
+    },
+    {
+      "id": "27474957",
+      "type": "todos_custom_field_values",
+      "attributes": {
+        "custom_fields": {
+          "select_CS8oYstR": {
+            "name": "\u6240\u5c5e\u8fed\u4ee3",
+            "value": null,
+            "field_type": "select"
+          },
+          "number_H4j1mVo2": {
+            "name": "Story Points",
+            "value": null,
+            "field_type": "number"
+          },
+          "select_sRb7qDnE": {
+            "name": "\u7070\u5ea6\u73af\u5883",
+            "value": null,
+            "field_type": "select"
+          },
+          "number_FQNZYTwC": {
+            "name": "\u5b8c\u6210\u767e\u5206\u6bd4%",
+            "value": null,
+            "field_type": "number"
+          },
+          "number_DEGix5as": {
+            "name": "\u9884\u8ba1\u65f6\u957f",
+            "value": null,
+            "field_type": "number"
+          }
+        }
+      }
+    },
+    {
+      "id": "43ca0a53add89d261029b7d0e3850ea4",
+      "type": "comments",
+      "attributes": {
+        "content": "<p>\u901a\u8fc7API\u6dfb\u52a0\u7684\u7b2c\u4e09\u6761\u8bc4\u8bba - Tower API Integration\u6d4b\u8bd5</p>",
+        "created_at": "2025-03-12T14:05:01.000+08:00",
+        "updated_at": "2025-03-12T14:05:01.159+08:00"
+      },
+      "relationships": {
+        "creator": {
+          "data": {
+            "id": "f91066231c2e352d46ecb35b5e8911c9",
+            "type": "members"
+          }
+        },
+        "attachments": {
+          "data": []
+        }
+      }
+    },
+    {
+      "id": "822590cc7f7e4a229a8cb901cbc7abbe",
+      "type": "comments",
+      "attributes": {
+        "content": "<p>\u901a\u8fc7API\u6dfb\u52a0\u7684\u7b2c\u4e8c\u6761\u8bc4\u8bba - Tower API Integration\u6d4b\u8bd5</p>",
+        "created_at": "2025-03-12T14:04:16.000+08:00",
+        "updated_at": "2025-03-12T14:04:16.447+08:00"
+      },
+      "relationships": {
+        "creator": {
+          "data": {
+            "id": "f91066231c2e352d46ecb35b5e8911c9",
+            "type": "members"
+          }
+        },
+        "attachments": {
+          "data": []
+        }
+      }
+    },
+    {
+      "id": "4145079fdf0450215790f9002c2ed950",
+      "type": "comments",
+      "attributes": {
+        "content": "<p>\u901a\u8fc7API\u6dfb\u52a0\u7684\u8bc4\u8bba - Tower API Integration\u6d4b\u8bd5</p>",
+        "created_at": "2025-03-12T14:03:45.000+08:00",
+        "updated_at": "2025-03-12T14:03:45.232+08:00"
+      },
+      "relationships": {
+        "creator": {
+          "data": {
+            "id": "f91066231c2e352d46ecb35b5e8911c9",
+            "type": "members"
+          }
+        },
+        "attachments": {
+          "data": []
+        }
+      }
+    }
+  ],
+  "jsonapi": {
+    "version": "1.0"
+  }
+}

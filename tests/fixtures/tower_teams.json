@@ -1,0 +1,16 @@
+{
+  "data": [
+    {
+      "id": "b3ba75b397716408e24fccbeb54ca2c6",
+      "type": "teams",
+      "attributes": {
+        "name": "变态家族",
+        "created_at": "2025-03-11T10:42:08.000+08:00",
+        "updated_at": "2025-03-12T11:59:55.000+08:00"
+      }
+    }
+  ],
+  "jsonapi": {
+    "version": "1.0"
+  }
+}

@@ -1,0 +1,14 @@
+[Unit]
+Description=Webhook Service
+After=network.target
+
+[Service]
+User=wangbo
+WorkingDirectory=/home/wangbo/document/wangbo/dev/webhook
+ExecStartPre=/usr/bin/pip install -r requirements.txt
+ExecStart=/usr/bin/uvicorn app.main:app --host 0.0.0.0 --port 12345
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

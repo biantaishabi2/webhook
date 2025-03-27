@@ -1,0 +1,13 @@
+{
+  "data": [],
+  "jsonapi": {
+    "version": "1.0"
+  },
+  "links": {
+    "self": "https://tower.im/api/v1/todos/6e20ab472bdecba96d586cd033651367/comments?page%5Bnumber%5D=1&page%5Bsize%5D=25",
+    "first": "https://tower.im/api/v1/todos/6e20ab472bdecba96d586cd033651367/comments?page%5Bnumber%5D=1&page%5Bsize%5D=25",
+    "prev": null,
+    "next": null,
+    "last": "https://tower.im/api/v1/todos/6e20ab472bdecba96d586cd033651367/comments?page%5Bnumber%5D=1&page%5Bsize%5D=25"
+  }
+}

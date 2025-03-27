@@ -1,0 +1,37 @@
+{
+  "data": {
+    "id": "43ca0a53add89d261029b7d0e3850ea4",
+    "type": "comments",
+    "attributes": {
+      "content": "<p>\u901a\u8fc7API\u6dfb\u52a0\u7684\u7b2c\u4e09\u6761\u8bc4\u8bba - Tower API Integration\u6d4b\u8bd5</p>",
+      "created_at": "2025-03-12T14:05:01.000+08:00",
+      "updated_at": "2025-03-12T14:05:01.159+08:00"
+    },
+    "relationships": {
+      "creator": {
+        "data": {
+          "id": "f91066231c2e352d46ecb35b5e8911c9",
+          "type": "members"
+        }
+      },
+      "attachments": {
+        "data": []
+      }
+    }
+  },
+  "included": [
+    {
+      "id": "f91066231c2e352d46ecb35b5e8911c9",
+      "type": "members",
+      "attributes": {
+        "nickname": "\u738b\u535a",
+        "is_active": true,
+        "gavatar": "https://avatar3.tower.im/letter_avatars/6e47ac0ca103acbdbec68ebae0b51a53_wangbo",
+        "role": "owner"
+      }
+    }
+  ],
+  "jsonapi": {
+    "version": "1.0"
+  }
+}

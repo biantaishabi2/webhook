@@ -1,0 +1,146 @@
+{
+  "data": {
+    "id": "6e20ab472bdecba96d586cd033651367",
+    "type": "todos",
+    "attributes": {
+      "team_wide_id": 157,
+      "content": "因果",
+      "desc": null,
+      "is_active": true,
+      "is_completed": false,
+      "priority": "normal",
+      "start_at": null,
+      "due_at": null,
+      "closed_at": null,
+      "created_at": "2025-03-12T12:01:49.000+08:00",
+      "updated_at": "2025-03-12T12:01:50.010+08:00",
+      "labels": []
+    },
+    "relationships": {
+      "project": {
+        "data": {
+          "id": "5dc713a15ab57a0bcefcc2969729b6c4",
+          "type": "projects"
+        }
+      },
+      "todolist": {
+        "data": {
+          "id": "68f1211586a95d0b21b88a98377d4134",
+          "type": "todolists"
+        }
+      },
+      "creator": {
+        "data": {
+          "id": "f91066231c2e352d46ecb35b5e8911c9",
+          "type": "members"
+        }
+      },
+      "assignee": {
+        "data": null
+      },
+      "closer": {
+        "data": null
+      },
+      "parent": {
+        "data": null
+      },
+      "custom_field_value": {
+        "data": {
+          "id": "27475086",
+          "type": "todos_custom_field_values"
+        }
+      },
+      "sub_todos": {
+        "data": []
+      },
+      "comments": {
+        "data": []
+      },
+      "todolists": {
+        "data": [
+          {
+            "id": "68f1211586a95d0b21b88a98377d4134",
+            "type": "todolists"
+          }
+        ]
+      },
+      "attachments": {
+        "data": []
+      }
+    }
+  },
+  "included": [
+    {
+      "id": "5dc713a15ab57a0bcefcc2969729b6c4",
+      "type": "projects",
+      "attributes": {
+        "name": "test敏捷迭代",
+        "is_archived": false
+      }
+    },
+    {
+      "id": "68f1211586a95d0b21b88a98377d4134",
+      "type": "todolists",
+      "attributes": {
+        "name": "待分配",
+        "is_active": true,
+        "is_archived": false,
+        "is_default": false
+      },
+      "relationships": {
+        "project": {
+          "data": {
+            "id": "5dc713a15ab57a0bcefcc2969729b6c4",
+            "type": "projects"
+          }
+        }
+      }
+    },
+    {
+      "id": "f91066231c2e352d46ecb35b5e8911c9",
+      "type": "members",
+      "attributes": {
+        "nickname": "王博",
+        "is_active": true,
+        "gavatar": "https://avatar3.tower.im/letter_avatars/6e47ac0ca103acbdbec68ebae0b51a53_wangbo",
+        "role": "owner"
+      }
+    },
+    {
+      "id": "27475086",
+      "type": "todos_custom_field_values",
+      "attributes": {
+        "custom_fields": {
+          "select_CS8oYstR": {
+            "name": "所属迭代",
+            "value": null,
+            "field_type": "select"
+          },
+          "number_H4j1mVo2": {
+            "name": "Story Points",
+            "value": null,
+            "field_type": "number"
+          },
+          "select_sRb7qDnE": {
+            "name": "灰度环境",
+            "value": null,
+            "field_type": "select"
+          },
+          "number_FQNZYTwC": {
+            "name": "完成百分比%",
+            "value": null,
+            "field_type": "number"
+          },
+          "number_DEGix5as": {
+            "name": "预计时长",
+            "value": null,
+            "field_type": "number"
+          }
+        }
+      }
+    }
+  ],
+  "jsonapi": {
+    "version": "1.0"
+  }
+}

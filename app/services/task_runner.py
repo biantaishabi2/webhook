@@ -103,6 +103,9 @@ async def dispatch_task(source: str, event_type: str, data: Dict[str, Any]) -> T
         "custom:query_param_test": "/home/wangbo/document/wangbo/dev/webhook/examples/hello_world.py",
         # 添加Tower webhook映射
         "tower:todos": "/home/wangbo/document/wangbo/dev/webhook/examples/tower_webhook_handler.py",
+        # AG2执行器映射
+        "tower:created": "/home/wangbo/document/wangbo/dev/webhook/examples/tower_ag2_handler.py",
+        "tower:updated": "/home/wangbo/document/wangbo/dev/webhook/examples/tower_ag2_handler.py",
     }
     
     program_key = f"{source}:{event_type}"

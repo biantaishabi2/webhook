@@ -37,6 +37,10 @@ async def receive_root_webhook(request: Request):
     
     headers = dict(request.headers)
     event_type = headers.get("X-Tower-Event", "unknown")
+    
+    # 检查Tower的action类型，从payload中提取
+    if payload and 'action' in payload:
+        event_type = payload['action']  # 使用action字段作为事件类型 (created/updated)
     signature = headers.get("X-Tower-Signature", "")
     
     # Log headers for debugging

@@ -83,6 +83,7 @@ sudo systemctl start webhook.service
 - [Tower API使用指南](docs/Tower_api_guide.md)
 - [Tower API官方文档](docs/Tower_api_doc.md)
 - [Tower Webhook集成指南](docs/tower_webhook_integration.md)
+- [Tower AG2集成指南](docs/tower_ag2_integration.md)
 - [Cloudflare隧道指南](docs/cloudflared_tunnel_guide.md)
 - [系统服务管理](docs/systemd_service.md)
 - [环境变量设置指南](docs/environment_setup.md)

@@ -2,6 +2,9 @@ from fastapi import FastAPI, Depends, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from app.routers import webhooks
 import uvicorn
+import json
+import os
+from datetime import datetime
 
 app = FastAPI(
     title="Webhook Service",
@@ -59,9 +62,22 @@ async def receive_root_webhook(request: Request):
     from app.services.task_runner import dispatch_task
     
     # 将完整payload保存到日志文件以便分析
-    import json
-    with open('/tmp/tower_webhook_payload.json', 'w') as f:
-        json.dump(payload, f, indent=2)
+    # 使用项目的logs目录
+    log_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "logs")
+    os.makedirs(log_dir, exist_ok=True)
+    
+    # 使用时间戳命名日志文件
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    log_file = os.path.join(log_dir, f"webhook_{timestamp}.log")
+    
+    # 记录webhook信息
+    with open(log_file, 'w') as f:
+        json.dump({
+            "timestamp": timestamp,
+            "event_type": event_type,
+            "headers": headers,
+            "payload": payload
+        }, f, indent=2)
     
     # 提取Tower webhook的参数
     # 由于我们不确定Tower具体的数据结构，先提取一些通用字段

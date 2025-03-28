@@ -10,12 +10,9 @@ import os
 
 # 从文件加载令牌
 def load_token():
-    try:
-        with open('tower_token.json', 'r') as f:
-            return json.load(f)
-    except Exception as e:
-        print(f"加载令牌出错: {str(e)}")
-        return None
+    # 使用通用的token加载函数
+    from tests.tower import load_tower_token
+    return load_tower_token()
 
 # 获取团队项目
 def get_team_projects(access_token, team_id):

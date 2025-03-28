@@ -16,14 +16,19 @@ from pathlib import Path
 from datetime import datetime
 import re
 import requests
+from app.utils.tower_api import get_access_token, get_todo_details
 
 # 配置日志
+log_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "logs")
+os.makedirs(log_dir, exist_ok=True)
+log_file = os.path.join(log_dir, f'ag2_handler_{datetime.now().strftime("%Y%m%d_%H%M%S")}.log')
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
         logging.StreamHandler(),
-        logging.FileHandler('/tmp/tower_ag2_handler.log')
+        logging.FileHandler(log_file)
     ]
 )
 logger = logging.getLogger(__name__)
@@ -32,7 +37,6 @@ logger = logging.getLogger(__name__)
 AG2_PATH = "/home/wangbo/document/wangbo/task_planner/ag2-wrapper"
 
 # Tower API配置
-TOWER_TOKEN_FILE = "/home/wangbo/document/wangbo/dev/webhook/config/tower_token.json"
 TOWER_API_BASE = "https://tower.im/api/v1"
 
 # 添加AG2路径到系统路径
@@ -165,52 +169,8 @@ def should_trigger_ag2(parsed_data):
     
     return False
 
-def get_access_token():
-    """获取Tower API访问令牌"""
-    try:
-        # 检查是否有存储的令牌
-        if os.path.exists(TOWER_TOKEN_FILE):
-            with open(TOWER_TOKEN_FILE, 'r') as f:
-                token_data = json.load(f)
-                
-            # 检查令牌是否过期
-            expires_at = datetime.fromisoformat(token_data['expires_at'])
-            if expires_at > datetime.now():
-                logger.info("使用缓存的Tower访问令牌")
-                return token_data['access_token']
-                
-        logger.warning("Tower访问令牌不存在或已过期")
-        return None
-    except Exception as e:
-        logger.error(f"读取令牌文件出错: {str(e)}")
-        return None
-
-def get_todo_details(todo_guid):
-    """获取Tower任务的详细信息"""
-    access_token = get_access_token()
-    if not access_token:
-        logger.error("没有有效的访问令牌，无法获取任务详情")
-        return None
-    
-    url = f"{TOWER_API_BASE}/todos/{todo_guid}"
-    headers = {
-        "Authorization": f"Bearer {access_token}",
-        "Content-Type": "application/json"
-    }
-    
-    try:
-        logger.info(f"请求Tower API: {url}")
-        response = requests.get(url, headers=headers)
-        logger.info(f"API响应状态码: {response.status_code}")
-        
-        if response.status_code != 200:
-            logger.warning(f"API响应内容: {response.text}")
-            return None
-        
-        return response.json()
-    except Exception as e:
-        logger.error(f"获取任务详情失败: {str(e)}")
-        return None
+# 使用从tower_api.py导入的get_access_token和get_todo_details函数
+# 不需要自己实现，复用项目中现有的功能
 
 def extract_task_description(parsed_data, task_details=None):
     """从解析的数据中提取任务描述"""
@@ -329,6 +289,10 @@ async def process_tower_webhook(payload):
             prompt=task_definition['description'],
             task_definition=task_definition,
             task_context=task_context,
+            context_data={
+                'tower_task': task_details,
+                'webhook_data': parsed_data
+            },
             timeout=task_definition['timeout']
         )
         

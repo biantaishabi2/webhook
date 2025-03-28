@@ -18,9 +18,44 @@ CLIENT_SECRET = os.environ.get("TOWER_CLIENT_SECRET", "")
 # 访问令牌存储
 TOKEN_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "config", "tower_token.json")
 
+def refresh_access_token(refresh_token):
+    """
+    使用刷新令牌获取新的访问令牌
+    
+    Args:
+        refresh_token: 刷新令牌
+        
+    Returns:
+        dict: 新的令牌数据，如果刷新失败则返回None
+    """
+    url = "https://tower.im/oauth/token"
+    payload = {
+        "client_id": CLIENT_ID,
+        "client_secret": CLIENT_SECRET,
+        "grant_type": "refresh_token",
+        "refresh_token": refresh_token
+    }
+    
+    try:
+        logger.info("尝试使用刷新令牌获取新的访问令牌")
+        response = requests.post(url, data=payload)
+        response.raise_for_status()
+        token_data = response.json()
+        
+        # 保存新的令牌数据
+        save_token(token_data)
+        logger.info("成功刷新访问令牌")
+        
+        return token_data
+    except Exception as e:
+        logger.error(f"刷新访问令牌失败: {str(e)}")
+        if hasattr(response, 'text'):
+            logger.error(f"错误响应: {response.text}")
+        return None
+
 def get_access_token():
     """
-    获取Tower API访问令牌，如果存在有效令牌则使用，否则引导用户获取新令牌
+    获取Tower API访问令牌，如果存在有效令牌则使用，过期则尝试刷新，否则引导用户获取新令牌
     """
     # 检查是否有存储的令牌
     if os.path.exists(TOKEN_FILE):
@@ -33,8 +68,21 @@ def get_access_token():
             if expires_at > datetime.now():
                 logger.info("使用缓存的Tower访问令牌")
                 return token_data['access_token']
+            else:
+                # 令牌已过期，尝试使用刷新令牌
+                logger.info("访问令牌已过期，尝试刷新")
+                if 'refresh_token' in token_data:
+                    new_token_data = refresh_access_token(token_data['refresh_token'])
+                    if new_token_data:
+                        return new_token_data['access_token']
+                    
+                # 刷新失败，删除过期的令牌文件
+                logger.warning("刷新令牌失败，删除过期的令牌文件")
+                os.remove(TOKEN_FILE)
         except Exception as e:
             logger.error(f"读取令牌文件出错: {str(e)}")
+            if os.path.exists(TOKEN_FILE):
+                os.remove(TOKEN_FILE)
     
     # 没有有效令牌，提示用户获取
     logger.warning("没有有效的Tower访问令牌")
@@ -88,11 +136,12 @@ def get_todo_details(todo_guid):
         logger.error("没有有效的访问令牌，无法获取任务详情")
         return None
     
-    # 根据文档，Tower API使用v1版本
+    # 根据测试结果，这个端点是确认可用的
     url = f"https://tower.im/api/v1/todos/{todo_guid}"
     headers = {
         "Authorization": f"Bearer {access_token}",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Accept": "application/vnd.api+json"  # 添加Accept头，接受JSON:API格式
     }
     
     try:
@@ -100,11 +149,18 @@ def get_todo_details(todo_guid):
         response = requests.get(url, headers=headers)
         logger.info(f"API响应状态码: {response.status_code}")
         
-        if response.status_code != 200:
+        if response.status_code == 200:
+            logger.info("成功获取任务详情")
+            return response.json()
+        elif response.status_code == 404:
+            logger.warning("API返回404，可能是因为应用缺少所需的权限范围")
+            logger.warning("请在Tower应用设置中确保添加了读写(read write)权限范围")
+            logger.warning("也可能需要使用password或authorization_code授权方式而非客户端凭据")
+            logger.warning(f"API响应内容: {response.text}")
+        else:
             logger.warning(f"API响应内容: {response.text}")
         
-        response.raise_for_status()
-        return response.json()
+        return None
     except Exception as e:
         logger.error(f"获取任务详情失败: {str(e)}")
         if 'response' in locals() and hasattr(response, 'status_code') and response.status_code == 401:
@@ -157,14 +213,15 @@ def update_todo_desc(todo_guid, new_desc):
         logger.error("没有有效的访问令牌，无法更新任务描述")
         return None
     
-    # 直接使用主任务API而不是特定的desc端点
+    # 直接使用主任务API
     url = f"https://tower.im/api/v1/todos/{todo_guid}"
+    
+    # 使用简单格式 - 测试证明这种方式更可靠
     headers = {
         "Authorization": f"Bearer {access_token}",
         "Accept": "application/vnd.api+json"
     }
     
-    # 尝试简单的表单数据方式
     payload = {
         "desc": new_desc
     }
@@ -173,32 +230,12 @@ def update_todo_desc(todo_guid, new_desc):
         logger.info(f"请求Tower更新API: {url}")
         logger.info(f"更新内容: {new_desc}")
         
-        # 先尝试非JSON:API格式，使用PUT方法而不是PATCH
         response = requests.put(url, headers=headers, json=payload)
         logger.info(f"API响应状态码: {response.status_code}")
         
         if response.status_code != 200:
-            logger.warning(f"API响应内容: {response.text}")
+            logger.warning(f"任务描述更新失败: {response.text}")
             
-            # 如果第一种方法失败，尝试使用JSON:API格式
-            headers["Content-Type"] = "application/vnd.api+json"
-            jsonapi_payload = {
-                "data": {
-                    "type": "todos",
-                    "id": todo_guid,
-                    "attributes": {
-                        "desc": new_desc
-                    }
-                }
-            }
-            
-            logger.info("尝试JSON:API格式...")
-            response = requests.patch(url, headers=headers, json=jsonapi_payload)
-            logger.info(f"第二次尝试 API响应状态码: {response.status_code}")
-            
-            if response.status_code != 200:
-                logger.warning(f"第二次尝试 API响应内容: {response.text}")
-        
         response.raise_for_status()
         return response.json()
     except Exception as e:

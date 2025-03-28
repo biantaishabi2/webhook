@@ -1,22 +1,30 @@
 #!/usr/bin/env python
 """
 使用授权码获取Tower访问令牌
+
+用法:
+    python get_new_token.py <授权码>
+
+说明:
+    此脚本通过授权码方式获取Tower API访问令牌，这是唯一稳定可靠的令牌获取方式。
+    授权码可以通过Tower应用控制台获取。
 """
 
 import requests
 import json
 import os
+import sys
 from datetime import datetime, timedelta
 
-# Tower应用凭据
-CLIENT_ID = "0d7e96f946d17a4a86ff03619b3f5687ce4c2194253533142025cc9b2a0f842c"
-CLIENT_SECRET = "33e6f7cc01029fbe427fc5d4b293bf8ed1d44fbb2c10b5734670eb7482cdc37d"
+# 从环境变量获取Tower应用凭据
+from dotenv import load_dotenv
+load_dotenv()  # 加载.env文件中的环境变量
 
-# 授权码 - 从命令行参数获取
-AUTH_CODE = "731fbad793a69a78c27c7242829b3a0acc2ddb4ed79c1f3ec58e868e3f35fac2"
+CLIENT_ID = os.environ.get("TOWER_CLIENT_ID", "")
+CLIENT_SECRET = os.environ.get("TOWER_CLIENT_SECRET", "")
 
 # Token文件路径
-TOKEN_FILE = "tower_token.json"
+TOKEN_FILE = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "config", "tower_token.json")
 
 def get_token_with_auth_code(auth_code):
     """使用授权码获取访问令牌"""
@@ -52,7 +60,26 @@ def get_token_with_auth_code(auth_code):
         return None
 
 if __name__ == "__main__":
-    token_data = get_token_with_auth_code(AUTH_CODE)
+    # 检查命令行参数
+    if len(sys.argv) != 2:
+        print("错误: 请提供授权码")
+        print("用法: python get_new_token.py <授权码>")
+        print(f"\n授权地址: https://tower.im/oauth/authorize?client_id={CLIENT_ID}&response_type=code")
+        sys.exit(1)
+    
+    # 从命令行获取授权码
+    auth_code = sys.argv[1]
+    
+    # 验证环境变量
+    if not CLIENT_ID or not CLIENT_SECRET:
+        print("错误: 未设置TOWER_CLIENT_ID或TOWER_CLIENT_SECRET环境变量")
+        print("请在.env文件中设置这些变量，或通过环境变量导出它们")
+        print("export TOWER_CLIENT_ID=your_client_id")
+        print("export TOWER_CLIENT_SECRET=your_client_secret")
+        sys.exit(1)
+    
+    # 获取令牌
+    token_data = get_token_with_auth_code(auth_code)
     if token_data:
         print("\n令牌信息:")
         print(f"访问令牌: {token_data.get('access_token')[:10]}...")
@@ -60,3 +87,7 @@ if __name__ == "__main__":
         print(f"令牌类型: {token_data.get('token_type', 'N/A')}")
         print(f"过期时间: {token_data.get('expires_in', 'N/A')} 秒")
         print(f"创建时间: {token_data.get('created_at', 'N/A')}")
+        sys.exit(0)
+    else:
+        print("获取令牌失败")
+        sys.exit(1)

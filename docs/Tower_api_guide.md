@@ -138,27 +138,6 @@ response = requests.get(
 
 **示例请求**:
 ```python
-response = requests.patch(
-    f"https://tower.im/api/v1/todos/{todo_guid}",
-    headers={
-        "Authorization": f"Bearer {access_token}",
-        "Content-Type": "application/vnd.api+json",
-        "Accept": "application/vnd.api+json"
-    },
-    json={
-        "data": {
-            "type": "todos",
-            "id": todo_guid,
-            "attributes": {
-                "desc": new_desc
-            }
-        }
-    }
-)
-```
-
-**简化方法** (非JSON:API格式):
-```python
 response = requests.put(
     f"https://tower.im/api/v1/todos/{todo_guid}",
     headers={
@@ -170,6 +149,8 @@ response = requests.put(
     }
 )
 ```
+
+**注意**: Tower可能会自动在描述内容外包裹额外的`<p>`标签
 
 ### 指派任务
 **端点**: `https://tower.im/api/v1/todos/{todo_guid}/assignment`  
@@ -399,6 +380,27 @@ response = requests.post(
         }
     }
 )
+```
+
+## 测试工具
+
+项目提供了一个综合测试脚本，可以测试Tower API的主要功能：
+
+```bash
+python tests/tower/tower_api_test.py --todo-guid <任务GUID>
+```
+
+该脚本支持以下选项：
+- `--todo-guid`: 要测试的Tower任务GUID（必需）
+- `--member-guid`: 要指派任务的成员GUID（可选）
+- `--comment`: 自定义评论内容（可选）
+- `--desc`: 自定义任务描述（可选）
+- `--action`: 任务状态操作，可选值: complete、reopen（可选）
+- `--tests`: 要运行的测试类型，可选值: details、comment、status、desc、assign、all（默认为all）
+
+例如，要只测试任务详情和评论功能：
+```bash
+python tests/tower/tower_api_test.py --todo-guid 6390720ea8ea9921fe51228a47fae9a4 --tests details comment
 ```
 
 ## 注意事项

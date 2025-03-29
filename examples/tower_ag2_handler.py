@@ -52,7 +52,7 @@ logging.getLogger('ag2_wrapper').setLevel(logging.WARNING)
 PROJECT_MAPPING = {
     "5dc713a15ab57a0bcefcc2969729b6c4": {
         "project_name": "test敏捷迭代",
-        "local_path": "test_agile",
+        "local_path": "tower",
         "description": "测试敏捷迭代项目"
     }
 }

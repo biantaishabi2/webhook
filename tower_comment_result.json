@@ -1,0 +1,37 @@
+{
+  "data": {
+    "id": "611676237c1c13bc819e47170bebeba1",
+    "type": "comments",
+    "attributes": {
+      "content": "<p>API测试评论 - 2025-03-28 04:42:07</p>",
+      "created_at": "2025-03-28T12:42:07.000+08:00",
+      "updated_at": "2025-03-28T12:42:07.336+08:00"
+    },
+    "relationships": {
+      "creator": {
+        "data": {
+          "id": "f91066231c2e352d46ecb35b5e8911c9",
+          "type": "members"
+        }
+      },
+      "attachments": {
+        "data": []
+      }
+    }
+  },
+  "included": [
+    {
+      "id": "f91066231c2e352d46ecb35b5e8911c9",
+      "type": "members",
+      "attributes": {
+        "nickname": "王博",
+        "is_active": true,
+        "gavatar": "https://avatar3.tower.im/letter_avatars/6e47ac0ca103acbdbec68ebae0b51a53_wangbo",
+        "role": "owner"
+      }
+    }
+  ],
+  "jsonapi": {
+    "version": "1.0"
+  }
+}

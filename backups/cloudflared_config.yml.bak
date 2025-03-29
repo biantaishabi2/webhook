@@ -1,0 +1,6 @@
+url: http://127.0.0.1:12345
+protocol: http2
+loglevel: debug
+metrics: 127.0.0.1:20000
+no-tls-verify: true
+no-chunked-encoding: true

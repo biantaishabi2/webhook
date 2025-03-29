@@ -101,18 +101,21 @@ async def dispatch_task(source: str, event_type: str, data: Dict[str, Any]) -> T
         "custom:data_update": "/home/wangbo/document/wangbo/dev/webhook/examples/hello_world.py",
         "custom:test_event": "/home/wangbo/document/wangbo/dev/webhook/examples/hello_world.py",
         "custom:query_param_test": "/home/wangbo/document/wangbo/dev/webhook/examples/hello_world.py",
-        # 添加Tower webhook映射
-        "tower:todos": "/home/wangbo/document/wangbo/dev/webhook/examples/tower_webhook_handler.py",
-        # AG2执行器映射
-        "tower:created": "/home/wangbo/document/wangbo/dev/webhook/examples/tower_ag2_handler.py",
-        "tower:updated": "/home/wangbo/document/wangbo/dev/webhook/examples/tower_ag2_handler.py",
+        # 统一使用 AG2 Handler 处理 todos 事件
+        "tower:todos": "/home/wangbo/document/wangbo/dev/webhook/examples/tower_ag2_handler.py",
+        # 移除或注释掉基于 action 的旧映射
+        # "tower:created": "/home/wangbo/document/wangbo/dev/webhook/examples/tower_ag2_handler.py",
+        # "tower:updated": "/home/wangbo/document/wangbo/dev/webhook/examples/tower_ag2_handler.py",
     }
     
     program_key = f"{source}:{event_type}"
     
-    # 为Tower事件设置专门的处理程序
-    if source == "tower":
-        default_program = "/home/wangbo/document/wangbo/dev/webhook/examples/tower_webhook_handler.py"
+    # 为Tower事件设置专门的处理程序 (可以简化或移除，因为上面已经映射了)
+    if source == "tower" and event_type == "todos":
+        default_program = "/home/wangbo/document/wangbo/dev/webhook/examples/tower_ag2_handler.py"
+    elif source == "tower":
+        # 其他 Tower 事件（如 attachments）可以使用默认 handler 或特定 handler
+        default_program = "/home/wangbo/document/wangbo/dev/webhook/examples/tower_webhook_handler.py" # 或其他
     else:
         default_program = "/home/wangbo/document/wangbo/dev/webhook/examples/hello_world.py"
     

@@ -1,0 +1,41 @@
+{
+  "data": [
+    {
+      "id": "5dc713a15ab57a0bcefcc2969729b6c4",
+      "type": "projects",
+      "attributes": {
+        "name": "test敏捷迭代",
+        "desc": "",
+        "is_pinned": false,
+        "is_archived": false,
+        "color_id": 1,
+        "icon_id": 16
+      },
+      "relationships": {
+        "project_groups": {
+          "data": []
+        }
+      }
+    },
+    {
+      "id": "8ab2f47432f2e074ec3f8decab7f2390",
+      "type": "projects",
+      "attributes": {
+        "name": "产品设计",
+        "desc": "",
+        "is_pinned": false,
+        "is_archived": false,
+        "color_id": 6,
+        "icon_id": 19
+      },
+      "relationships": {
+        "project_groups": {
+          "data": []
+        }
+      }
+    }
+  ],
+  "jsonapi": {
+    "version": "1.0"
+  }
+}
